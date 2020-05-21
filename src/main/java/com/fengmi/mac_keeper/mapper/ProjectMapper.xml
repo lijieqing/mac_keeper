@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.fengmi.mac_keeper.mapper.ProjectMapper">
+    <select id="selectAllProject" resultType="com.fengmi.mac_keeper.bean.Project">
+        select fp.project_id as projectID,
+               fp.project_code as projectCode,
+               fp.project_code_desc as projectDesc
+        from fm_projects as fp;
+    </select>
+</mapper>

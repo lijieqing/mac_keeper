@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.fengmi.mac_keeper.mapper.ETMacMapper">
+    <insert id="insertMacData"
+            parameterType="com.fengmi.mac_keeper.bean.MacData"
+            useGeneratedKeys="true" keyProperty="dataID">
+        insert into fm_mac_data values (null,#{macType},#{macStart},#{macCurrent},#{macEnd},#{macLength},#{recordOrganization},#{projectID},#{dataStatus},current_timestamp);
+    </insert>
+    <select id="findAllMacData" parameterType="int" resultType="com.fengmi.mac_keeper.bean.MacData">
+        select
+               d.data_id as dataID ,
+               d.mac_type as macType ,
+               d.mac_start as macStart,
+               d.mac_current as macCurrent,
+               d.mac_end as macEnd,
+               d.data_size as macLength,
+               d.record_org as recordOrganization,
+               d.project_id as projectID,
+               d.data_status as dataStatus,
+               d.import_date as importDate
+        from fm_mac_data as d where mac_type = #{type};
+    </select>
+</mapper>
