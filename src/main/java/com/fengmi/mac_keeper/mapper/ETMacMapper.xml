@@ -20,4 +20,38 @@
                d.import_date as importDate
         from fm_mac_data as d where mac_type = #{type};
     </select>
+    <select id="findAvailableMacData" parameterType="int" resultType="com.fengmi.mac_keeper.bean.MacData">
+        select
+               d.data_id as dataID ,
+               d.mac_type as macType ,
+               d.mac_start as macStart,
+               d.mac_current as macCurrent,
+               d.mac_end as macEnd,
+               d.data_size as macLength,
+               d.record_org as recordOrganization,
+               d.project_id as projectID,
+               d.data_status as dataStatus,
+               d.import_date as importDate
+        from fm_mac_data as d where record_org = #{org} AND mac_type = #{type} AND (data_status=1 or data_status=0) order by import_date ASC;
+    </select>
+    <update id="updateMacData" parameterType="com.fengmi.mac_keeper.bean.MacData">
+        update fm_mac_data as fd
+        set fd.data_status=#{dataStatus},fd.mac_current=#{macCurrent}
+        where fd.data_id=#{dataID};
+    </update>
+    <insert id="insertMacDataDetail" parameterType="com.fengmi.mac_keeper.bean.MacDataDetail" useGeneratedKeys="true" keyProperty="detailID">
+        insert into fm_mac_data_detail values (null,#{dataID},#{macStart},#{macCurrent},#{macLen},#{factory},null);
+    </insert>
+    <select id="findMacDataDetail" parameterType="int" resultType="com.fengmi.mac_keeper.bean.MacDataDetail">
+        select
+               fdd.detail_id as detailID,
+               fdd.data_id as dataID,
+               fdd.mac_start as macStart,
+               fdd.mac_end as macEnd,
+               fdd.mac_size as macLen,
+               fdd.factory as factory,
+               fdd.output_date as outputTime
+        from fm_mac_data_detail as fdd
+        where fdd.data_id = #{dataID};
+    </select>
 </mapper>

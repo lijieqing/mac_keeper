@@ -124,4 +124,46 @@ public class MacData {
                 ", macLength=" + macLength +
                 '}';
     }
+
+    public int getMacStartInt() {
+        String[] macStart = getMacStart().split(" ");
+        if (macStart.length != 2) {
+            System.out.println(" mac 数据异常，请核对数据库数据:" + this);
+            return -1;
+        }
+        return Integer.parseInt(macStart[1], 16);
+    }
+
+    public int getMacEndInt() {
+        String[] macEnd = getMacEnd().split(" ");
+        if (macEnd.length != 2) {
+            System.out.println(" mac 数据异常，请核对数据库数据:" + this);
+            return -1;
+        }
+        return Integer.parseInt(macEnd[1], 16);
+    }
+
+    public int getMacCurrentInt() {
+        String[] macCur = getMacCurrent().split(" ");
+        if (macCur.length != 2) {
+            System.out.println(" mac 数据异常，请核对数据库数据:" + this);
+            return -1;
+        }
+        return Integer.parseInt(macCur[1], 16);
+    }
+
+    public String getMacPrefix() {
+        String[] macEnd = getMacEnd().split(" ");
+        String[] macStart = getMacEnd().split(" ");
+        if (macEnd.length != 2 || macStart.length != 2) {
+            System.out.println(" mac 数据异常，请核对数据库数据:" + this);
+            return null;
+        }
+        if (macEnd[0].equals(macStart[0])) {
+            return macStart[0];
+        } else {
+            System.out.println(" mac 数据异常，请核对数据库数据:" + this);
+            return null;
+        }
+    }
 }
