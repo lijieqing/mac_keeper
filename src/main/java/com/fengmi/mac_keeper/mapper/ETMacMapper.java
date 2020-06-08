@@ -14,9 +14,9 @@ public interface ETMacMapper {
 
     List<MacData> findAvailableMacData(int type,int org);
 
-    MacData updateMacData(MacData data);
+    void updateMacData(MacData data);
 
-    MacDataDetail insertMacDataDetail(MacDataDetail detail);
+    void insertMacDataDetail(MacDataDetail detail);
 
     List<MacDataDetail> findMacDataDetail(int dataID);
 }

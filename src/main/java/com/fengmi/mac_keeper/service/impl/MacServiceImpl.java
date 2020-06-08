@@ -26,18 +26,20 @@ public class MacServiceImpl implements MacService {
     }
 
     @Override
-    public List<MacData> findAvailableMacData(int type,int org) {
-        return etMacMapper.findAvailableMacData(type,org);
+    public List<MacData> findAvailableMacData(int type, int org) {
+        return etMacMapper.findAvailableMacData(type, org);
     }
 
     @Override
     public MacData updateMacData(MacData data) {
-        return etMacMapper.updateMacData(data);
+        etMacMapper.updateMacData(data);
+        return data;
     }
 
     @Override
     public MacDataDetail insertMacDataDetail(MacDataDetail detail) {
-        return etMacMapper.insertMacDataDetail(detail);
+        etMacMapper.insertMacDataDetail(detail);
+        return detail;
     }
 
     @Override

@@ -2,9 +2,11 @@ package com.fengmi.mac_keeper.controller;
 
 import com.fengmi.mac_keeper.bean.MacData;
 import com.fengmi.mac_keeper.bean.MacDataDetail;
+import com.fengmi.mac_keeper.enums.Factory;
 import com.fengmi.mac_keeper.enums.MacStatus;
+import com.fengmi.mac_keeper.response.MacDataResponse;
+import com.fengmi.mac_keeper.enums.ResponseStatus;
 import com.fengmi.mac_keeper.service.MacService;
-import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -34,16 +36,22 @@ public class MacController {
         int size = end - start + 1;
         if (size == data.getMacLength()) {
             data.setMacCurrent(data.getMacStart());
+            data.setDataStatus(MacStatus.NotRelease.value);
             return macService.insertMacData(data);
         }
-        System.out.println("Mac 起止段与事件数量不符");
+        System.out.println("Mac 起止段与实际数量不符");
         return null;
     }
 
     @RequestMapping(value = "/findAllMacData")
     @ResponseBody
-    public List<MacData> findAllMacData(int macType) {
-        return macService.findAllMacData(macType);
+    public MacDataResponse findAllMacData(int macType) {
+        MacDataResponse mdr = new MacDataResponse();
+        List<MacData> list = macService.findAllMacData(macType);
+        mdr.setStatus(ResponseStatus.Success.status);
+        mdr.setDesc("findAllMacData return");
+        mdr.addAllMacData(list);
+        return mdr;
     }
 
     @RequestMapping(value = "/releaseMac", method = RequestMethod.POST)
@@ -76,12 +84,14 @@ public class MacController {
                     factory
             );
             //insert detail data
+            macService.insertMacDataDetail(mdd);
             System.out.println(mdd);
 
             macdata.setDataStatus(MacStatus.PartialRelease.value);
             macdata.setMacCurrent(prefix + " " + Integer.toHexString(newCur).toUpperCase());
 
             //update mac data
+            macService.updateMacData(macdata);
             System.out.println(macdata);
 
             macDataDetails.add(mdd);
@@ -97,12 +107,14 @@ public class MacController {
                     factory
             );
             //insert detail data
+            macService.insertMacDataDetail(mdd);
             System.out.println(mdd);
 
             macdata.setDataStatus(MacStatus.Released.value);
             macdata.setMacCurrent(macdata.getMacEnd());
 
             //update mac data
+            macService.updateMacData(macdata);
             System.out.println(macdata);
 
             macDataDetails.add(mdd);
@@ -165,10 +177,12 @@ public class MacController {
                         tempData.setMacCurrent(tempData.getMacPrefix() + " " + Integer.toHexString(detailEnd + 1).toUpperCase());
                     }
                     //update MacData
+                    macService.updateMacData(tempData);
                 }
 
                 for (MacDataDetail macDataDetail : macDataDetails) {
                     //insert MacDataDetail
+                    macService.insertMacDataDetail(macDataDetail);
                     System.out.println(macDataDetail);
                 }
             }

@@ -40,7 +40,7 @@
         where fd.data_id=#{dataID};
     </update>
     <insert id="insertMacDataDetail" parameterType="com.fengmi.mac_keeper.bean.MacDataDetail" useGeneratedKeys="true" keyProperty="detailID">
-        insert into fm_mac_data_detail values (null,#{dataID},#{macStart},#{macCurrent},#{macLen},#{factory},null);
+        insert into fm_mac_data_detail values (null,#{dataID},#{macStart},#{macEnd},#{macLen},#{factory},null);
     </insert>
     <select id="findMacDataDetail" parameterType="int" resultType="com.fengmi.mac_keeper.bean.MacDataDetail">
         select
