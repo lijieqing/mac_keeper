@@ -53,6 +53,17 @@ public class MacController {
         mdr.addAllMacData(list);
         return mdr;
     }
+    @RequestMapping(value = "/findAvailableMacData")
+    @ResponseBody
+    public MacDataResponse findAvailableMacData(int type,int org){
+        List<MacData> availableList = macService.findAvailableMacData(type, org);
+
+        MacDataResponse mdr = new MacDataResponse();
+        mdr.addAllMacData(availableList);
+        mdr.setStatus(ResponseStatus.Success.status);
+        mdr.setDesc("findAvailableMacData");
+        return mdr;
+    }
 
     @RequestMapping(value = "/releaseMac", method = RequestMethod.POST)
     @ResponseBody
